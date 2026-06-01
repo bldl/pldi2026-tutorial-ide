@@ -1,5 +1,5 @@
-import type { ValidationChecks } from 'langium';
-import type { BeanAstType } from './generated/ast.js';
+import { AstUtils, type ValidationAcceptor, type ValidationChecks } from 'langium';
+import { isNumericType, isUnitType, type BeanAstType, type Body, type NumericType, type Type } from './generated/ast.js';
 import type { BeanServices } from './bean-module.js';
 
 /**
@@ -9,11 +9,9 @@ export function registerValidationChecks(services: BeanServices) {
     const registry = services.validation.ValidationRegistry;
     const validator = services.validation.BeanValidator;
     const checks: ValidationChecks<BeanAstType> = {
-        // TODO: Declare validators for your properties
-        // See doc : https://langium.org/docs/learn/workflow/create_validations/
-        /*
-        Element: validator.checkElement
-        */
+        Body: [
+            validator.checkContextsContainOnlyOneType
+        ]
     };
     registry.register(checks, validator);
 }
@@ -23,11 +21,32 @@ export function registerValidationChecks(services: BeanServices) {
  */
 export class BeanValidator {
 
-    // TODO: Add logic here for validation checks of properties
-    // See doc : https://langium.org/docs/learn/workflow/create_validations/
-    /*
-    checkElement(element: Element, accept: ValidationAcceptor): void {
-        // Always accepts
+    checkContextsContainOnlyOneType(body: Body, accept: ValidationAcceptor): void {
+        body.discreteVarDecls.forEach(varDecl => {
+            if (!this.isDiscreteType(varDecl.ty)) {
+                accept("error", "Context variable must be discrete", {
+                    node: varDecl
+                })
+            }
+        });
+        body.linearVarDecls.forEach(varDecl => {
+            if (!this.isLinearType(varDecl.ty)) {
+                accept("error", "Context variable must be linear", {
+                    node: varDecl
+                })
+            }
+        })
     }
-    */
+
+    private isLinearType(ty: Type): boolean {
+        const units = AstUtils.streamAst(ty).filter((elem: any) => isUnitType(elem));
+        const numericTypes = AstUtils.streamAst(ty).filter(elem => isNumericType(elem));
+        return units.isEmpty() && numericTypes.every(elem => (elem as NumericType).kw === "num");
+    }
+
+    private isDiscreteType(ty: Type): boolean {
+        const units = AstUtils.streamAst(ty).filter(elem => isUnitType(elem));
+        const numericTypes = AstUtils.streamAst(ty).filter(elem => isNumericType(elem));
+        return units.isEmpty() && numericTypes.every(elem => (elem as NumericType).kw === "dnum");
+    }
 }
