@@ -1,17 +1,31 @@
-# Workspace overview
+# Language tools for the BEAN Language
 
-Depending on the selection during the project generation you will have one or more packages contained in the packages directory.
-Please check the specific projects here:
+This repository. contains a small IDE prototype for the [BEAN](https://github.com/Athena-Types/Bean) research programming language. The project is meant to demonstrate some applications of language tooling to PLs in the research field. Developed using [Langium](https://langium.org/).
 
-- [packages/language](./packages/language/README.md) This package is always available and contains the language definition.
-- [packages/cli](./packages/cli/README.md) *Optional* Is only available if you chose to use the command-line interface.
-- [packages/extension](./packages/extension/langium-quickstart.md) *Optional* Contains the VSCode extension if you chose to create it.
+Features:
+- Syntax highlighting
+- Variable scoping
+- Semantic validators
+  - Type declarations inside linear/discrete contexts
+  - Unused variables
+  - Linear variables can only be accessed once
+- LSP Code Actions (Quickfixes)
+  - Remove unused variable
+- Text generation
 
-## What's in the folder?
+## System Requirements
 
-Some file are contained in the root directory as well.
+- Node >= v20.0.
 
-- [package.json](./package.json) - The manifest file the main workspace package
-- [tsconfig.json](./tsconfig.json) - The base TypeScript compiler configuration
-- [tsconfig.build.json](./package.json) - Configuration used to build the complete source code.
-- [.gitignore](.gitignore) - Files ignored by git
+- VSCode >= v1.122.1.
+
+## Running the application
+
+Clone the repository and open the root folder inside VSCode.
+
+Install dependencies:
+```
+npm install
+```
+
+Run the application by launching the `Run Extension` configuration in `launch.json`.
