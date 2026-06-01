@@ -1,5 +1,5 @@
 import { AstUtils, LangiumCoreServices, References, type ValidationAcceptor, type ValidationChecks } from 'langium';
-import { IdentifierDecl, isNumericType, isTensorDestructor, isUnitType, type BeanAstType, type Body, type NumericType, type Type } from './generated/ast.js';
+import { IdentifierDecl, isCase, isLetBinding, isNumericType, isTensorDestructor, isUnitType, isVarDecl, VariableReference, type BeanAstType, type Body, type NumericType, type Type } from './generated/ast.js';
 import type { BeanServices } from './bean-module.js';
 
 /**
@@ -14,6 +14,9 @@ export function registerValidationChecks(services: BeanServices) {
         ],
         IdentifierDecl: [
             validator.removeUnusedVariable
+        ],
+        VariableReference: [
+            validator.checkLinearVariablesAreOnlyReferencedOnce
         ]
     };
     registry.register(checks, validator);
@@ -37,17 +40,45 @@ export class BeanValidator {
         }
 
         if (!isTensorDestructor(ident.$container) && isUnused(ident)) {
-            accept("hint", `Unused variable '${ident.name}'.`, {
+            accept("hint", `Unused variable \`${ident.name}\`.`, {
                 node: ident,
                 code: "unused-variable"
             });
         }
         else if (isTensorDestructor(ident.$container) && isUnused(ident.$container?.id1) && isUnused(ident.$container?.id2)) {
-            accept("hint", `Unused variable '${ident.name}'.`, {
+            accept("hint", `Unused variable \`${ident.name}\`.`, {
                 node: ident,
                 code: "unused-variable"
             });
         }
+    }
+
+    checkLinearVariablesAreOnlyReferencedOnce(ref: VariableReference, accept: ValidationAcceptor): void {
+        const ident = ref.ref.ref;
+        if (ident && this.isLinearVariable(ident)) {
+           const refs = this.references.findReferences(ident!, {includeDeclaration: false}).toArray();
+           if(refs.length > 1) {
+                accept("error", `Linear variable \`${ident.name}\` accessed multiple times. It can only be accessed once.`, {
+                    node: ref
+                })
+           }
+        }
+    }
+
+    private isLinearVariable(ident: IdentifierDecl): boolean {
+        if(isVarDecl(ident.$container)) {
+            return ident.$container.$containerProperty === "linearVarDecls";
+        }
+        else if(isLetBinding(ident.$container)) {
+            return ident.$container.kw === "let";
+        }
+        else if(isTensorDestructor(ident.$container)) {
+            return ident.$container.kw === "let";
+        }
+        else if(isCase(ident.$container)) {
+            return true;
+        }
+        return false;
     }
 
     checkContextsContainOnlyOneType(body: Body, accept: ValidationAcceptor): void {
