@@ -3,6 +3,7 @@ import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModul
 import { BeanGeneratedModule, BeanGeneratedSharedModule } from './generated/module.js';
 import { BeanValidator, registerValidationChecks } from './bean-validator.js';
 import { BeanScopeProvider } from './bean-scoping.js';
+import { BeanCodeActionProvider } from './bean.lsp.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -30,6 +31,9 @@ export const BeanModule: Module<BeanServices, PartialLangiumServices & BeanAdded
     },
     references: {
         ScopeProvider: (services) => new BeanScopeProvider(services)
+    },
+    lsp: {
+        CodeActionProvider: () => new BeanCodeActionProvider()
     }
 };
 

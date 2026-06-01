@@ -1,5 +1,5 @@
 import { AstUtils, LangiumCoreServices, References, type ValidationAcceptor, type ValidationChecks } from 'langium';
-import { IdentifierDecl, isNumericType, isUnitType, type BeanAstType, type Body, type NumericType, type Type } from './generated/ast.js';
+import { IdentifierDecl, isNumericType, isTensorDestructor, isUnitType, type BeanAstType, type Body, type NumericType, type Type } from './generated/ast.js';
 import type { BeanServices } from './bean-module.js';
 
 /**
@@ -31,10 +31,22 @@ export class BeanValidator {
     }
 
     removeUnusedVariable(ident: IdentifierDecl, accept: ValidationAcceptor): void {
-        if(this.references.findReferences(ident, { includeDeclaration: false }).isEmpty()) {
+        const isUnused = (id: IdentifierDecl): boolean => {
+            if (!id?.$cstNode) return false;
+            return this.references.findReferences(id, { includeDeclaration: false }).isEmpty();
+        }
+
+        if (!isTensorDestructor(ident.$container) && isUnused(ident)) {
             accept("hint", `Unused variable '${ident.name}'.`, {
                 node: ident,
-            })
+                code: "unused-variable"
+            });
+        }
+        else if (isTensorDestructor(ident.$container) && isUnused(ident.$container?.id1) && isUnused(ident.$container?.id2)) {
+            accept("hint", `Unused variable '${ident.name}'.`, {
+                node: ident,
+                code: "unused-variable"
+            });
         }
     }
 
