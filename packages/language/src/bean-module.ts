@@ -2,6 +2,7 @@ import { type Module, inject } from 'langium';
 import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
 import { BeanGeneratedModule, BeanGeneratedSharedModule } from './generated/module.js';
 import { BeanValidator, registerValidationChecks } from './bean-validator.js';
+import { BeanScopeProvider } from './bean-scoping.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -26,6 +27,9 @@ export type BeanServices = LangiumServices & BeanAddedServices
 export const BeanModule: Module<BeanServices, PartialLangiumServices & BeanAddedServices> = {
     validation: {
         BeanValidator: () => new BeanValidator()
+    },
+    references: {
+        ScopeProvider: (services) => new BeanScopeProvider(services)
     }
 };
 
