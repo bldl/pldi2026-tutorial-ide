@@ -26,7 +26,7 @@ export type BeanServices = LangiumServices & BeanAddedServices
  */
 export const BeanModule: Module<BeanServices, PartialLangiumServices & BeanAddedServices> = {
     validation: {
-        BeanValidator: () => new BeanValidator()
+        BeanValidator: (services) => new BeanValidator(services)
     },
     references: {
         ScopeProvider: (services) => new BeanScopeProvider(services)

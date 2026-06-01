@@ -1,5 +1,5 @@
-import { AstUtils, type ValidationAcceptor, type ValidationChecks } from 'langium';
-import { isNumericType, isUnitType, type BeanAstType, type Body, type NumericType, type Type } from './generated/ast.js';
+import { AstUtils, LangiumCoreServices, References, type ValidationAcceptor, type ValidationChecks } from 'langium';
+import { IdentifierDecl, isNumericType, isUnitType, type BeanAstType, type Body, type NumericType, type Type } from './generated/ast.js';
 import type { BeanServices } from './bean-module.js';
 
 /**
@@ -11,6 +11,9 @@ export function registerValidationChecks(services: BeanServices) {
     const checks: ValidationChecks<BeanAstType> = {
         Body: [
             validator.checkContextsContainOnlyOneType
+        ],
+        IdentifierDecl: [
+            validator.removeUnusedVariable
         ]
     };
     registry.register(checks, validator);
@@ -21,17 +24,31 @@ export function registerValidationChecks(services: BeanServices) {
  */
 export class BeanValidator {
 
+    private references: References;
+
+    constructor(services: LangiumCoreServices) {
+        this.references = services.references.References;
+    }
+
+    removeUnusedVariable(ident: IdentifierDecl, accept: ValidationAcceptor): void {
+        if(this.references.findReferences(ident, { includeDeclaration: false }).isEmpty()) {
+            accept("hint", `Unused variable '${ident.name}'.`, {
+                node: ident,
+            })
+        }
+    }
+
     checkContextsContainOnlyOneType(body: Body, accept: ValidationAcceptor): void {
         body.discreteVarDecls.forEach(varDecl => {
             if (!this.isDiscreteType(varDecl.ty)) {
-                accept("error", "Context variable must be discrete", {
+                accept("error", "Context variable must be discrete.", {
                     node: varDecl
                 })
             }
         });
         body.linearVarDecls.forEach(varDecl => {
             if (!this.isLinearType(varDecl.ty)) {
-                accept("error", "Context variable must be linear", {
+                accept("error", "Context variable must be linear.", {
                     node: varDecl
                 })
             }
