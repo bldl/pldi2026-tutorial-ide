@@ -32,4 +32,4 @@ Run the application by launching the `Run Extension` configuration in `launch.js
 
 ### Code Examples
 
-The `examples` folder contains some well-formed programs. The `DEMO_<>.be` source files demonstrate the main functionalities of the language extension. 
+Once the extension is running, open the `examples` folder to inspect some well-formed programs. The `DEMO_<>.be` source files demonstrate the main functionalities of the language extension. 
