@@ -1,0 +1,16 @@
+{
+    "projectName": "Bean",
+    "languages": [
+        {
+            "id": "bean",
+            "grammar": "src/bean.langium",
+            "fileExtensions": [
+                "be"
+            ],
+            "textMate": {
+                "out": "syntaxes/bean.tmLanguage.json"
+            }
+        }
+    ],
+    "out": "src/generated"
+}
