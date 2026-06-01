@@ -1,6 +1,6 @@
 # Language tools for the BEAN Language
 
-This repository. contains a small IDE prototype for the [BEAN](https://github.com/Athena-Types/Bean) research programming language. The project is meant to demonstrate some applications of language tooling to PLs in the research field. Developed using [Langium](https://langium.org/).
+This repository. contains a small IDE prototype for the [BEAN](https://github.com/Athena-Types/Bean) research programming language. The project is meant to demonstrate applications of IDEs and language tooling to PLs in the research field. Developed using [Langium](https://langium.org/).
 
 Features:
 - Syntax highlighting
@@ -29,3 +29,7 @@ npm install
 ```
 
 Run the application by launching the `Run Extension` configuration in `launch.json`.
+
+### Code Examples
+
+The `examples` folder contains some well-formed programs. The `DEMO_<>.be` source files demonstrate the main functionalities of the language extension. 
