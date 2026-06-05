@@ -3,7 +3,7 @@ grammar Bean
 entry Body:
     "{" discreteVarDecls+=VarDecl* "}"
     "{" linearVarDecls+=VarDecl* "}"
-    content+=Expression*
+    content+=Expression+
 ;
 
 IdentifierDecl:
@@ -14,17 +14,14 @@ VarDecl:
 ;
 
 Type:
-    AType ({infer ComplexType.types+=current} ('+' types+=AType)*)?;
-
-AType:
-    SingleType
+    ProductType
     |
     NumericType
     |
     UnitType
 ;
 
-SingleType:
+ProductType:
     ('(' tys+=Type (',' tys+=Type)* ')');
      
 UnitType:
@@ -80,7 +77,6 @@ Injection:
 BangConstructor:
     "!" ref=VariableReference
 ;
-
 
 TensorDestructor:
     kw=("let"|"dlet")
