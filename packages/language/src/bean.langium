@@ -3,7 +3,7 @@ grammar Bean
 entry Body:
     "{" discreteVarDecls+=VarDecl* "}"
     "{" linearVarDecls+=VarDecl* "}"
-    content+=Expression+
+    content+=Expression* // TODO: remove for tutorial
 ;
 
 IdentifierDecl:
@@ -14,11 +14,15 @@ VarDecl:
 ;
 
 Type:
-    ProductType
-    |
     NumericType
     |
+    ProductType
+    |
     UnitType
+;
+
+NumericType:
+    kw=("num"|"dnum")
 ;
 
 ProductType:
@@ -28,18 +32,16 @@ UnitType:
     val="()"
 ;
 
-NumericType:
-    kw=("num"|"dnum")
-;
+// TODO: `let x = e;` `dlet x = e;`
 
 Expression:
-    Value
-    |
     TensorDestructor
     |
-    Case
+    Value
     |
     LetBinding
+    |
+    Case
     |
     Operation
 ;
