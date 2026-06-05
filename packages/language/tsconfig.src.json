@@ -1,10 +1,11 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "rootDir": "src",
-      "outDir": "out"
-    },
-    "include": [
-      "src/**/*.ts",
-    ]
-  }
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "out",
+    "noUnusedLocals": false,
+  },
+  "include": [
+    "src/**/*.ts",
+  ]
+}
