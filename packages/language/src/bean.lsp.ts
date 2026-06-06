@@ -13,7 +13,7 @@ export class BeanCodeActionProvider implements CodeActionProvider {
             const matchingIdentifierDecl = this.findNodeByRange(document, diagnostic.range, isIdentifierDecl);
 
             if(matchingIdentifierDecl) {
-                const removeAction = this.createRemoveDeclarationAction(document, matchingIdentifierDecl, diagnostic);
+                const removeAction = this.createRemoveDeclarationAction(document, matchingIdentifierDecl);
                 if(removeAction) codeActions.push(removeAction);
             }
         });
@@ -21,6 +21,13 @@ export class BeanCodeActionProvider implements CodeActionProvider {
         return codeActions;
     }
 
+    /**
+     * Finds the AST node of type T overlapping with a given range in the document.
+     * @param document Langium document to be searched.
+     * @param range Range which the node should overlap with.
+     * @param typeGuard Desired node type.
+     * @returns The node in the given range, or otherwise if no such node exists.
+     */
     private findNodeByRange<T = AstNode>(document: LangiumDocument, range: Range, typeGuard: (node: unknown) => node is T): T | undefined {
         const root = document.parseResult.value;
         const nodes = AstUtils.streamAst(root).filter(node => typeGuard(node));
@@ -35,10 +42,12 @@ export class BeanCodeActionProvider implements CodeActionProvider {
             (range1.start.line === range2.end.line && range1.start.character > range2.end.character));
     }
 
+    /**
+     * Creates a Code Action to remove the declaration of the given identifier node. 
+     */
     private createRemoveDeclarationAction(
         document: LangiumDocument,
-        identifierDecl: IdentifierDecl,
-        diagnostic: Diagnostic
+        identifierDecl: IdentifierDecl
     ): CodeAction | undefined {
         const container = identifierDecl.$container;
         if (!container) return undefined;
