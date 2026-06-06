@@ -38,7 +38,7 @@ export class BeanValidator {
         if (ident && this.isLinearVariable(ident)) {
            const refs = this.references.findReferences(ident!, {includeDeclaration: false}).toArray();
            if(refs.length > 1) {
-                accept("error", `Linear variable \`${ident.name}\` accessed multiple times. It can only be accessed once.`, {
+                accept("error", `Linear variable '${ident.name}' accessed multiple times. It can only be accessed once.`, {
                     node: ref
                 })
            }
@@ -72,14 +72,12 @@ export class BeanValidator {
             return this.references.findReferences(id, { includeDeclaration: false }).isEmpty();
         }
 
-        if (!isTensorDestructor(ident.$container) && isUnused(ident)) {
-            accept("hint", `Unused variable \`${ident.name}\`.`, {
-                node: ident,
-                code: "unused-variable"
-            });
-        }
-        else if (isTensorDestructor(ident.$container) && isUnused(ident.$container?.id1) && isUnused(ident.$container?.id2)) {
-            accept("hint", `Unused variable \`${ident.name}\`.`, {
+        if (
+            (!isTensorDestructor(ident.$container) && isUnused(ident))
+            ||
+            (isTensorDestructor(ident.$container) && isUnused(ident.$container?.id1) && isUnused(ident.$container?.id2))
+        ) {
+            accept("hint", `Unused variable: '${ident.name}'.`, {
                 node: ident,
                 code: "unused-variable"
             });
@@ -89,14 +87,14 @@ export class BeanValidator {
     checkContextsContainOnlyOneType(body: Body, accept: ValidationAcceptor): void {
         body.discreteVarDecls.forEach(varDecl => {
             if (!this.isDiscreteType(varDecl.ty)) {
-                accept("error", "Context variable must be discrete.", {
+                accept("error", `Found linear variable declaration '${varDecl.ident.name}' in discrete context.`, {
                     node: varDecl
                 })
             }
         });
         body.linearVarDecls.forEach(varDecl => {
             if (!this.isLinearType(varDecl.ty)) {
-                accept("error", "Context variable must be linear.", {
+                accept("error", `Found discrete variable declaration '${varDecl.ident.name}' in linear context.`, {
                     node: varDecl
                 })
             }
