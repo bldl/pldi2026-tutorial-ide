@@ -7,16 +7,8 @@ import { CodeActionKind, Diagnostic, Range, TextEdit } from "vscode-languageserv
 export class BeanCodeActionProvider implements CodeActionProvider {
     getCodeActions(document: LangiumDocument, params: CodeActionParams, cancelToken?: CancellationToken): MaybePromise<Array<Command | CodeAction> | undefined> {
         const codeActions: CodeAction[] = [];
-        const diagnostics = params.context.diagnostics.filter(d => d.code === "unused-variable");
-
-        diagnostics.forEach(diagnostic => {
-            const matchingIdentifierDecl = this.findNodeByRange(document, diagnostic.range, isIdentifierDecl);
-
-            if(matchingIdentifierDecl) {
-                const removeAction = this.createRemoveDeclarationAction(document, matchingIdentifierDecl);
-                if(removeAction) codeActions.push(removeAction);
-            }
-        });
+        
+        // TODO: ...
 
         return codeActions;
     }
@@ -28,22 +20,10 @@ export class BeanCodeActionProvider implements CodeActionProvider {
         document: LangiumDocument,
         identifierDecl: IdentifierDecl
     ): CodeAction | undefined {
-        const container = identifierDecl.$container;
-        if (!container) return undefined;
+        
+        // TODO: ...
 
-        let range = container.$cstNode?.range;
-        if (!range) return undefined;
-
-        const edit: TextEdit = {
-            range: range,
-            newText: '',
-        };
-
-        return CodeAction.create(
-            `Remove unused declaration for: '${identifierDecl.name}'`,
-            { changes: { [document.uri.toString()]: [edit] } },
-            CodeActionKind.QuickFix,
-        );
+        return undefined;
     }
 
     /**

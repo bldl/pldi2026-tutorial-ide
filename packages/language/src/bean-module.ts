@@ -30,10 +30,10 @@ export const BeanModule: Module<BeanServices, PartialLangiumServices & BeanAdded
         BeanValidator: (services) => new BeanValidator(services)
     },
     references: {
-        ScopeProvider: (services) => new BeanScopeProvider(services)
+        // TODO: ...
     },
     lsp: {
-        CodeActionProvider: () => new BeanCodeActionProvider()
+        // TODO: ...
     }
 };
 

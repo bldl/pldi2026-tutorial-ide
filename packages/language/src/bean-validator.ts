@@ -13,10 +13,10 @@ export function registerValidationChecks(services: BeanServices) {
             validator.checkContextsContainOnlyOneType
         ],
         IdentifierDecl: [
-            validator.checkUnusedVariable
+            // TODO: ...
         ],
         VariableReference: [
-            validator.checkLinearVariableAccess
+            // TODO: ...
         ]
     };
     registry.register(checks, validator);
@@ -34,15 +34,7 @@ export class BeanValidator {
     }
 
     checkLinearVariableAccess(ref: VariableReference, accept: ValidationAcceptor): void {
-        const ident = ref.ref.ref;
-        if (ident && this.isLinearVariable(ident)) {
-           const refs = this.references.findReferences(ident!, {includeDeclaration: false}).toArray();
-           if(refs.length > 1) {
-                accept("error", `Linear variable '${ident.name}' accessed multiple times. It can only be accessed once.`, {
-                    node: ref
-                })
-           }
-        }
+        // TODO: ...
     }
 
     /**
@@ -55,9 +47,11 @@ export class BeanValidator {
             return ident.$container.$containerProperty === "linearVarDecls";
         }
         else if(isLetBinding(ident.$container)) {
+            // @ts-expect-error
             return ident.$container.kw === "let";
         }
         else if(isTensorDestructor(ident.$container)) {
+            // @ts-expect-error
             return ident.$container.kw === "let";
         }
         else if(isCase(ident.$container)) {
@@ -67,21 +61,7 @@ export class BeanValidator {
     }
 
     checkUnusedVariable(ident: IdentifierDecl, accept: ValidationAcceptor): void {
-        const isUnused = (id: IdentifierDecl): boolean => {
-            if (!id?.$cstNode) return false;
-            return this.references.findReferences(id, { includeDeclaration: false }).isEmpty();
-        }
-
-        if (
-            (!isTensorDestructor(ident.$container) && isUnused(ident))
-            ||
-            (isTensorDestructor(ident.$container) && isUnused(ident.$container?.id1) && isUnused(ident.$container?.id2))
-        ) {
-            accept("hint", `Unused variable: '${ident.name}'.`, {
-                node: ident,
-                code: "unused-variable"
-            });
-        }
+        // TODO: ...
     }
 
     checkContextsContainOnlyOneType(body: Body, accept: ValidationAcceptor): void {

@@ -3,7 +3,7 @@ grammar Bean
 entry Body:
     "{" discreteVarDecls+=VarDecl* "}"
     "{" linearVarDecls+=VarDecl* "}"
-    content+=Expression* // TODO: remove for tutorial
+    content+=Expression*
 ;
 
 IdentifierDecl:
@@ -32,24 +32,18 @@ UnitType:
     val="()"
 ;
 
-// TODO: `let x = e;` `dlet x = e;`
-
 Expression:
-    TensorDestructor
-    |
     Value
-    |
-    LetBinding
-    |
-    Case
-    |
-    Operation
+    | LetBinding
+    | TensorDestructor
+    | Case
+    | Operation
 ;
 
 Value:
-    UnitValue
-    |
     VariableReference
+    |
+    UnitValue
     |
     TensorPair
     |
@@ -59,11 +53,7 @@ Value:
 ;
 
 UnitValue:
-    val="(" ")"
-;
-
-VariableReference:
-    ref=[IdentifierDecl:ID]
+    val="()"
 ;
 
 TensorPair:
@@ -76,45 +66,29 @@ Injection:
     (kw="inl"|"inr") ty=Type val=Value
 ;
 
-BangConstructor:
-    "!" ref=VariableReference
-;
+// TODO: variable references
+VariableReference: 
+    placeholder="TODO";
 
-TensorDestructor:
-    kw=("let"|"dlet")
-    "("
-    id1=IdentifierDecl "," id2=IdentifierDecl
-    ")"
-    "="
-    val=Value
-    ";"
-;
-
-Case:
-    "case" val=Value "of"
-    "{"
-        "inl" "(" leftName=IdentifierDecl ")" "=>"
-        (leftBranch+=Expression)+
-        "|"
-        "inr" "(" rightName=IdentifierDecl ")" "=>"
-        (rightBranch+=Expression)+
-    "}"
-;
-
+// TODO: bindings
 LetBinding:
-    kw=("let"|"dlet")
-    name=IdentifierDecl
-    (":" ty=Type)?
-    "="
-    expr=Expression
-    ";"
-;
+    placeholder="TODO";
 
+// TODO: tensor destructors
+TensorDestructor:
+    placeholder="TODO";
+
+// TODO: operations
 Operation:
-    (op="add"|"mul"|"sub"|"div"|"dmul")
-    refLeft=VariableReference
-    refRight=VariableReference
-;
+    placeholder="TODO";
+
+// TODO: case expressions
+Case:
+    placeholder="TODO";
+
+// TODO: "bang" constructors
+BangConstructor:
+    placeholder="TODO";
 
 hidden terminal WS: /\s+/;
 terminal ID: /[_a-zA-Z][a-zA-Z0-9_']*/;
