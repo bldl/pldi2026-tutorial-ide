@@ -32,8 +32,6 @@ UnitType:
     val="()"
 ;
 
-// TODO: `let x = e;` `dlet x = e;`
-
 Expression:
     TensorDestructor
     |
