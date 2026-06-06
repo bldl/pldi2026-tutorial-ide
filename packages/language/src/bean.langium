@@ -94,10 +94,10 @@ Case:
     "case" val=Value "of"
     "{"
         "inl" "(" leftName=IdentifierDecl ")" "=>"
-        (leftBranch+=Expression)+
+        (leftBranch+=Expression)*
         "|"
         "inr" "(" rightName=IdentifierDecl ")" "=>"
-        (rightBranch+=Expression)+
+        (rightBranch+=Expression)*
     "}"
 ;
 
