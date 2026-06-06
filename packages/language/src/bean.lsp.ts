@@ -10,7 +10,7 @@ export class BeanCodeActionProvider implements CodeActionProvider {
         const diagnostics = params.context.diagnostics.filter(d => d.code === "unused-variable");
 
         diagnostics.forEach(diagnostic => {
-            const matchingIdentifierDecl = this.findIdentifierDeclarationByRange(document, diagnostic.range, isIdentifierDecl);
+            const matchingIdentifierDecl = this.findNodeByRange(document, diagnostic.range, isIdentifierDecl);
 
             if(matchingIdentifierDecl) {
                 const removeAction = this.createRemoveDeclarationAction(document, matchingIdentifierDecl, diagnostic);
@@ -21,7 +21,7 @@ export class BeanCodeActionProvider implements CodeActionProvider {
         return codeActions;
     }
 
-    private findIdentifierDeclarationByRange<T = AstNode>(document: LangiumDocument, range: Range, typeGuard: (node: unknown) => node is T): T | undefined {
+    private findNodeByRange<T = AstNode>(document: LangiumDocument, range: Range, typeGuard: (node: unknown) => node is T): T | undefined {
         const root = document.parseResult.value;
         const nodes = AstUtils.streamAst(root).filter(node => typeGuard(node));
         const matchingNode = nodes.find(ident => this.rangesOverlap(ident.$cstNode!.range, range));
