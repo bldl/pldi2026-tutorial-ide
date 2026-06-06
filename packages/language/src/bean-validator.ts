@@ -13,10 +13,10 @@ export function registerValidationChecks(services: BeanServices) {
             validator.checkContextsContainOnlyOneType
         ],
         IdentifierDecl: [
-            validator.removeUnusedVariable
+            validator.checkUnusedVariable
         ],
         VariableReference: [
-            validator.checkLinearVariablesAreOnlyReferencedOnce
+            validator.checkLinearVariableAccess
         ]
     };
     registry.register(checks, validator);
@@ -33,7 +33,40 @@ export class BeanValidator {
         this.references = services.references.References;
     }
 
-    removeUnusedVariable(ident: IdentifierDecl, accept: ValidationAcceptor): void {
+    checkLinearVariableAccess(ref: VariableReference, accept: ValidationAcceptor): void {
+        const ident = ref.ref.ref;
+        if (ident && this.isLinearVariable(ident)) {
+           const refs = this.references.findReferences(ident!, {includeDeclaration: false}).toArray();
+           if(refs.length > 1) {
+                accept("error", `Linear variable \`${ident.name}\` accessed multiple times. It can only be accessed once.`, {
+                    node: ref
+                })
+           }
+        }
+    }
+
+    /**
+     * Determines if the given identifier refers to a linear (ie. `num`) variable.
+     * @param ident 
+     * @returns `true` if `ident` is linear, `false` otherwise.
+     */
+    private isLinearVariable(ident: IdentifierDecl): boolean {
+        if(isVarDecl(ident.$container)) {
+            return ident.$container.$containerProperty === "linearVarDecls";
+        }
+        else if(isLetBinding(ident.$container)) {
+            return ident.$container.kw === "let";
+        }
+        else if(isTensorDestructor(ident.$container)) {
+            return ident.$container.kw === "let";
+        }
+        else if(isCase(ident.$container)) {
+            return true;
+        }
+        return false;
+    }
+
+    checkUnusedVariable(ident: IdentifierDecl, accept: ValidationAcceptor): void {
         const isUnused = (id: IdentifierDecl): boolean => {
             if (!id?.$cstNode) return false;
             return this.references.findReferences(id, { includeDeclaration: false }).isEmpty();
@@ -51,34 +84,6 @@ export class BeanValidator {
                 code: "unused-variable"
             });
         }
-    }
-
-    checkLinearVariablesAreOnlyReferencedOnce(ref: VariableReference, accept: ValidationAcceptor): void {
-        const ident = ref.ref.ref;
-        if (ident && this.isLinearVariable(ident)) {
-           const refs = this.references.findReferences(ident!, {includeDeclaration: false}).toArray();
-           if(refs.length > 1) {
-                accept("error", `Linear variable \`${ident.name}\` accessed multiple times. It can only be accessed once.`, {
-                    node: ref
-                })
-           }
-        }
-    }
-
-    private isLinearVariable(ident: IdentifierDecl): boolean {
-        if(isVarDecl(ident.$container)) {
-            return ident.$container.$containerProperty === "linearVarDecls";
-        }
-        else if(isLetBinding(ident.$container)) {
-            return ident.$container.kw === "let";
-        }
-        else if(isTensorDestructor(ident.$container)) {
-            return ident.$container.kw === "let";
-        }
-        else if(isCase(ident.$container)) {
-            return true;
-        }
-        return false;
     }
 
     checkContextsContainOnlyOneType(body: Body, accept: ValidationAcceptor): void {
