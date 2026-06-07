@@ -70,9 +70,9 @@
     </language>
   </registry>
   <node concept="2S6QgY" id="16EXoXrJgrQ">
-    <property role="TrG5h" value="ConvertNumericExpressionType" />
+    <property role="TrG5h" value="ConvertNumericBindingType" />
     <property role="2ZfUl0" value="true" />
-    <ref role="2ZfgGC" to="ke35:16EXoXrFvdw" resolve="INumericExpression" />
+    <ref role="2ZfgGC" to="ke35:16EXoXrFvdw" resolve="INumericBinding" />
     <node concept="2S6ZIM" id="16EXoXrJgrR" role="2ZfVej">
       <node concept="3clFbS" id="16EXoXrJgrS" role="2VODD2">
         <node concept="3clFbJ" id="16EXoXrJgza" role="3cqZAp">

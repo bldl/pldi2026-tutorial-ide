@@ -12,7 +12,7 @@ Features:
   - `_x -> !x` wraps a variable reference into a discrete conversion expression when `!`is entered
   - `let _x = e; -> let (x, ...) = e;` replaces a `let/dlet` binding with a tensor destructor expression when `(` is entered 
 - Syntax highlighting
-- Per-file Variable scoping
+- Variable scoping
 - Semantic validators
     - Type declarations inside linear/discrete contexts
     - Unused variables

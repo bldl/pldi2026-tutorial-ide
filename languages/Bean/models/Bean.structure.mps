@@ -174,7 +174,7 @@
       <ref role="20lvS9" node="16EXoXrcE4U" resolve="Expression" />
     </node>
     <node concept="PrWs8" id="16EXoXrFPiJ" role="PzmwI">
-      <ref role="PrY4T" node="16EXoXrFvdw" resolve="INumericExpression" />
+      <ref role="PrY4T" node="16EXoXrFvdw" resolve="INumericBinding" />
     </node>
   </node>
   <node concept="1TIwiD" id="16EXoXrcE4R">
@@ -331,12 +331,12 @@
       <ref role="20lvS9" node="16EXoXrcE4W" resolve="Value" />
     </node>
     <node concept="PrWs8" id="16EXoXrFwj8" role="PzmwI">
-      <ref role="PrY4T" node="16EXoXrFvdw" resolve="INumericExpression" />
+      <ref role="PrY4T" node="16EXoXrFvdw" resolve="INumericBinding" />
     </node>
   </node>
   <node concept="PlHQZ" id="16EXoXrFvdw">
     <property role="EcuMT" value="1273099840752841568" />
-    <property role="TrG5h" value="INumericExpression" />
+    <property role="TrG5h" value="INumericBinding" />
     <node concept="1TJgyi" id="16EXoXrFvdx" role="1TKVEl">
       <property role="IQ2nx" value="1273099840752841569" />
       <property role="TrG5h" value="isLinear" />
