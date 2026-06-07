@@ -619,7 +619,7 @@
       </node>
       <node concept="mvV$s" id="16EXoXrsmbi" role="1Qtc8A">
         <node concept="A1WHu" id="16EXoXrsmbj" role="A14EM">
-          <ref role="A1WHt" node="16EXoXrslZb" resolve="linearToDiscrete" />
+          <ref role="A1WHt" node="16EXoXrslZb" resolve="linearToDiscreteConversion" />
         </node>
       </node>
     </node>
@@ -728,7 +728,7 @@
       </node>
     </node>
     <node concept="22hDWg" id="16EXoXrslZc" role="22hAXT">
-      <property role="TrG5h" value="linearToDiscrete" />
+      <property role="TrG5h" value="linearToDiscreteConversion" />
     </node>
   </node>
   <node concept="325Ffw" id="16EXoXr_DgK">
