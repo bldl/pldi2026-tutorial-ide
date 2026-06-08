@@ -12,37 +12,39 @@ export class BeanScopeProvider implements ScopeProvider {
         if (!ref.container) return EMPTY_SCOPE;
 
         let scope = EMPTY_SCOPE;
+        
+        // Traverse the AST from the reference up to the root node.
         let current = ref.container;
         while (current && current.$container) {
             const container = current.$container;
 
             if (isBody(container)) {
-                const body = container as Body;
-                const indexInBody = body.content.indexOf(current as Expression);
-                const descriptions = [
-                    ...this.collectContextDeclarations(body),
-                    ...this.collectSequenceDeclarations(body.content, indexInBody, ref),
-                ];
-                scope = new MapScope(descriptions, scope);
+                // TODO: collect identifers from context variables and previous expressions.
             }
             else if (isCase(container)) {
-                const caseNode = container as Case;
-
-                const leftIndex = caseNode.leftBranch.indexOf(current as Expression);
-                if (leftIndex >= 0) {
-                    scope = new MapScope(this.collectCaseDeclarations(caseNode.leftName, caseNode.leftBranch, leftIndex, ref), scope);
-                }
-
-                const rightIndex = caseNode.rightBranch.indexOf(current as Expression);
-                if (rightIndex >= 0) {
-                    scope = new MapScope(this.collectCaseDeclarations(caseNode.rightName, caseNode.rightBranch, rightIndex, ref), scope);
-                }
+                // TODO: collect identifiers from branch.
             }
 
             current = container;
         }
 
         return scope;
+    }
+
+    /**
+     * @param expr An `Expression` node.
+     * @param ref Information about the reference for which a scope is requested.
+     * @returns Scoping information representing the identifiers declared in the given expression.
+     */
+    private collectExpressionDeclarations(expr: Expression, ref: ReferenceInfo): AstNodeDescription[] {
+        const descriptions: AstNodeDescription[] = [];
+        if (isLetBinding(expr)) {
+            // TODO: collect identifiers.
+        }
+        else if (isTensorDestructor(expr)) {
+            // TODO: collect identifiers.
+        }
+        return descriptions;
     }
 
     /**
@@ -75,28 +77,6 @@ export class BeanScopeProvider implements ScopeProvider {
         }
 
         return descriptions;
-    }
-
-    /**
-     * @param expr An `Expression` node.
-     * @param ref Information about the reference for which a scope is requested.
-     * @returns Scoping information representing the identifiers declared in the given expression.
-     */
-    private collectExpressionDeclarations(expr: Expression, ref: ReferenceInfo): AstNodeDescription[] {
-        if (isLetBinding(expr)) {
-            const ident = expr.name as IdentifierDecl;
-            return [
-                this.astNodeDescriptionProvider.createDescription(ident, ident.name)
-            ];
-        }
-        else if (isTensorDestructor(expr)) {
-            const tensorDest = expr as TensorDestructor;
-            return [
-                this.astNodeDescriptionProvider.createDescription(tensorDest.id1, tensorDest.id1.name),
-                this.astNodeDescriptionProvider.createDescription(tensorDest.id2, tensorDest.id2.name)
-            ];
-        }
-        else return [];
     }
 
     /**
