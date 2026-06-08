@@ -3,7 +3,7 @@ grammar Bean
 entry Body:
     "{" discreteVarDecls+=VarDecl* "}"
     "{" linearVarDecls+=VarDecl* "}"
-    content+=Expression* // TODO: remove for tutorial
+    content+=Expression*
 ;
 
 IdentifierDecl:
