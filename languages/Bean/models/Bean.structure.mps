@@ -142,12 +142,6 @@
     <property role="EcuMT" value="1273099840744759607" />
     <property role="TrG5h" value="VariableReference" />
     <ref role="1TJDcQ" node="16EXoXrcE4W" resolve="Value" />
-    <node concept="1TJgyj" id="16EXoXrcE4S" role="1TKVEi">
-      <property role="IQ2ns" value="1273099840744759608" />
-      <property role="20kJfa" value="ref" />
-      <property role="20lbJX" value="fLJekj4/_1" />
-      <ref role="20lvS9" node="16EXoXrcyem" resolve="IdentifierDecl" />
-    </node>
   </node>
   <node concept="1TIwiD" id="16EXoXrcE4U">
     <property role="EcuMT" value="1273099840744759610" />
@@ -249,20 +243,6 @@
     <property role="34LRSv" value="dmul" />
     <property role="R4oN_" value="dmul: dnum -&gt; num -&gt; num" />
     <ref role="1TJDcQ" node="16EXoXrhRY8" resolve="Operation" />
-  </node>
-  <node concept="1TIwiD" id="16EXoXrlDEb">
-    <property role="EcuMT" value="1273099840747117195" />
-    <property role="TrG5h" value="BangConstructor" />
-    <property role="34LRSv" value="!" />
-    <property role="R4oN_" value="discrete variable conversion" />
-    <ref role="1TJDcQ" node="16EXoXrcE4W" resolve="Value" />
-    <node concept="1TJgyj" id="16EXoXrsA$p" role="1TKVEi">
-      <property role="IQ2ns" value="1273099840748939545" />
-      <property role="20kJfa" value="ref" />
-      <property role="20lbJX" value="fLJekj4/_1" />
-      <property role="20lmBu" value="fLJjDmT/aggregation" />
-      <ref role="20lvS9" node="16EXoXrcE4R" resolve="VariableReference" />
-    </node>
   </node>
   <node concept="1TIwiD" id="16EXoXrEZ26">
     <property role="EcuMT" value="1273099840752709766" />
