@@ -1,0 +1,170 @@
+\documentclass[12pt]{amsart}
+
+%%%%%%%%%This project was adapted from Adam Graham-Squire at High Point University.
+
+\addtolength{\hoffset}{-2.25cm}
+\addtolength{\textwidth}{4.5cm}
+\addtolength{\voffset}{-2.5cm}
+\addtolength{\textheight}{5cm}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0in}
+
+\usepackage{amsthm, amsmath, amssymb,}
+\usepackage[colorlinks = true, linkcolor = black, citecolor = black, final]{hyperref}
+\usepackage{graphicx, multicol}
+\usepackage{marvosym, wasysym}
+\usepackage{bussproofs}
+
+% Optional: Command to style labels consistently with your paper
+\newcommand{\RightLabelStyle}[1]{\RightLabel{\scriptsize (#1)}}
+
+\newcommand{\ds}{\displaystyle}
+\DeclareMathOperator{\sech}{sech}
+
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\thispagestyle{empty}
+ 
+\smallskip
+
+\section{Grammar Rules}
+
+\subsection*{Types and Contexts}
+\[
+\begin{array}{llll}
+\sigma, \tau & ::= & \mathbf{unit} \mid \mathbf{num} \mid \sigma \otimes \sigma \mid \alpha & \text{(Types)} \\
+\alpha        & ::= & m(\sigma) & \text{(Discrete Types)} \\
+\Gamma        & ::= & \emptyset \mid \Gamma, x :_r \sigma & \text{(Linear Typing Contexts)} \\
+\Phi          & ::= & \emptyset \mid \Phi, z : \alpha & \text{(Discrete Typing Contexts)}
+\end{array}
+\]
+
+\subsection*{Expressions}
+\[
+\begin{array}{lll}
+e, f & ::= & x \mid z \mid () \mid \, !e \mid (e, f) \mid \mathbf{inl}\, e \mid \mathbf{inr}\, e \\
+     & \mid & \mathbf{let}\, x = e\ \mathbf{in}\, f \mid \mathbf{let}\, (x, y) = e\ \mathbf{in}\, f \mid \mathbf{dlet}\, z = e\ \mathbf{in}\, f \mid \mathbf{dlet}\, (x, y) = e\ \mathbf{in}\, f \\
+     & \mid & \mathbf{case}\, e' \text{ of } (\mathbf{inl}\, x.e \mid \mathbf{inr}\, y.f) \mid \mathbf{add}\, e\, f \mid \mathbf{sub}\, e\, f \mid \mathbf{mul}\, e\, f \mid \mathbf{dmul}\, e\, f \mid \mathbf{div}\, e\, f
+\end{array}
+\]
+
+\section{Typing Rules}
+
+\subsection*{Context Variables}
+
+\begin{minipage}{0.45\textwidth}
+% Rule: Var
+\begin{prooftree}
+    \AxiomC{}
+    \RightLabelStyle{Var}
+    \UnaryInfC{$\Phi \mid \Gamma, x :_r \sigma \vdash x : \sigma$}
+\end{prooftree}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+% Rule: DVar
+\begin{prooftree}
+    \AxiomC{}
+    \RightLabelStyle{DVar}
+    \UnaryInfC{$\Phi, z : \alpha \mid \Gamma \vdash z : \alpha$}
+\end{prooftree}
+\end{minipage}
+
+\vspace{1em}
+
+\subsection*{Tensor Destructors}
+
+% Rule: \otimes E_\sigma
+\begin{prooftree}
+    \AxiomC{$\Phi \mid \Gamma \vdash e : \tau_1 \otimes \tau_2$}
+    \AxiomC{$\Phi \mid \Delta, x :_r \tau_1, y :_r \tau_2 \vdash f : \sigma$}
+    \RightLabelStyle{$\otimes \text{E}_\sigma$}
+    \BinaryInfC{$\Phi \mid r + \Gamma, \Delta \vdash \mathbf{let}\, (x,y) = e\ \mathbf{in}\, f : \sigma$}
+\end{prooftree}
+
+\vspace{1em}
+
+% Rule: \otimes E_\alpha
+\begin{prooftree}
+    \AxiomC{$\Phi \mid \Gamma \vdash e : \alpha_1 \otimes \alpha_2$}
+    \AxiomC{$\Phi, z_1 : \alpha_1, z_2 : \alpha_2 \mid \Delta \vdash f : \sigma$}
+    \RightLabelStyle{$\otimes \text{E}_\alpha$}
+    \BinaryInfC{$\Phi \mid \Gamma, \Delta \vdash \mathbf{dlet}\, (z_1, z_2) = e\ \mathbf{in}\, f : \sigma$}
+\end{prooftree}
+
+\subsection*{Let Bindings}
+
+\begin{minipage}{0.45\textwidth}
+% Rule: Let
+\begin{prooftree}
+    \AxiomC{$\Phi \mid \Gamma \vdash e : \tau$}
+    \AxiomC{$\Phi \mid \Delta, x :_r \tau \vdash f : \sigma$}
+    \RightLabelStyle{Let}
+    \BinaryInfC{$\Phi \mid r + \Gamma, \Delta \vdash \mathbf{let}\, x = e\ \mathbf{in}\, f : \sigma$}
+\end{prooftree}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+% Rule: DLet
+\begin{prooftree}
+    \AxiomC{$\Phi \mid \Gamma \vdash e : \alpha$}
+    \AxiomC{$\Phi, z : \alpha \mid \Delta \vdash f : \sigma$}
+    \RightLabelStyle{DLet}
+    \BinaryInfC{$\Phi \mid \Gamma, \Delta \vdash \mathbf{dlet}\, z = e\ \mathbf{in}\, f : \sigma$}
+\end{prooftree}
+\end{minipage}
+
+\vspace{1em}
+
+\subsection*{Bang Destructor}
+
+% Rule: Disc
+\begin{prooftree}
+    \AxiomC{$\Phi \mid \Gamma \vdash e : \sigma$}
+    \RightLabelStyle{Disc}
+    \UnaryInfC{$\Phi \mid \Gamma \vdash\, !e : m(\sigma)$}
+\end{prooftree}
+
+\subsection*{Operations.}
+
+% Rule: Add, Sub
+\begin{prooftree}
+    \AxiomC{}
+    \RightLabelStyle{Add, Sub}
+    \UnaryInfC{$\Phi \mid \Gamma, x :_{\varepsilon + r_1} \text{\textbf{num}}, y :_{\varepsilon + r_2} \text{\textbf{num}} \vdash \{\mathbf{add}, \mathbf{sub}\} \, x \, y : \text{\textbf{num}}$}
+\end{prooftree}
+
+\vspace{1em}
+
+% Rule: Mul
+\begin{prooftree}
+    \AxiomC{}
+    \RightLabelStyle{Mul}
+    \UnaryInfC{$\Phi \mid \Gamma, x :_{\varepsilon/2 + r_1} \text{\textbf{num}}, y :_{\varepsilon/2 + r_2} \text{\textbf{num}} \vdash \mathbf{mul} \, x \, y : \text{\textbf{num}}$}
+\end{prooftree}
+
+\vspace{1em}
+
+% Rule: Div
+\begin{prooftree}
+    \AxiomC{}
+    \RightLabelStyle{Div}
+    \UnaryInfC{$\Phi \mid \Gamma, x :_{\varepsilon/2 + r_1} \text{\textbf{num}}, y :_{\varepsilon/2 + r_2} \text{\textbf{num}} \vdash \mathbf{div} \, x \, y : \text{\textbf{num}} + \text{\textbf{unit}}$}
+\end{prooftree}
+
+\vspace{1em}
+
+% Rule: DMul
+\begin{prooftree}
+    \AxiomC{}
+    \RightLabelStyle{DMul}
+    \UnaryInfC{$\Phi, z : m(\text{\textbf{num}}) \mid \Gamma, x :_{\varepsilon + r} \text{\textbf{num}} \vdash \mathbf{dmul} \, z \, x : \text{\textbf{num}}$}
+\end{prooftree}
+
+\end{document}
