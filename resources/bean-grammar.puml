@@ -1,4 +1,13 @@
 @startebnf bean-grammar
+
+<style>
+element {
+   ebnf {
+         FontSize 20
+   }
+}
+</style>
+
 Body               = "{", { VarDecl }, "}", "{", { VarDecl }, "}", { Expression } ;
 
 VarDecl            = "(", ID, ":", Type, ")" ;

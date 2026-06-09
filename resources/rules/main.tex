@@ -1,4 +1,4 @@
-\documentclass[12pt]{amsart}
+\documentclass[11pt]{amsart}
 
 %%%%%%%%%This project was adapted from Adam Graham-Squire at High Point University.
 
@@ -24,6 +24,7 @@
 \usepackage{titlesec}
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
 
 \pagestyle{empty}
 
@@ -131,7 +132,7 @@ e, f & ::= & x \mid z \mid () \mid \, !e \mid (e, f) \mid \mathbf{inl}\, e \mid 
     \UnaryInfC{$\Phi \mid \Gamma \vdash\, !e : m(\sigma)$}
 \end{prooftree}
 
-\subsection*{Operations.}
+\subsection*{Operations}
 
 % Rule: Add, Sub
 \begin{prooftree}
@@ -167,4 +168,7 @@ e, f & ::= & x \mid z \mid () \mid \, !e \mid (e, f) \mid \mathbf{inl}\, e \mid 
     \UnaryInfC{$\Phi, z : m(\text{\textbf{num}}) \mid \Gamma, x :_{\varepsilon + r} \text{\textbf{num}} \vdash \mathbf{dmul} \, z \, x : \text{\textbf{num}}$}
 \end{prooftree}
 
+\nocite{*}
+\bibliography{mybibfile}
+\bibliographystyle{plain}
 \end{document}

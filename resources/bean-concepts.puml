@@ -1,8 +1,13 @@
 @startuml bean-class-diagram
 skinparam linetype polyline
 skinparam linetype ortho
-skinparam nodesep 150
+skinparam nodesep 120
 skinparam ranksep 100
+skinparam class {
+ FontSize 25
+ ArrowFontSize 20
+}
+skinparam MinClassWidth 100
 
 class Program
 class LinearContext
