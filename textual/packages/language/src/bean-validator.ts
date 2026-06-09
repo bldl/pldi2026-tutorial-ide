@@ -10,7 +10,6 @@ export function registerValidationChecks(services: BeanServices) {
     const validator = services.validation.BeanValidator;
     const checks: ValidationChecks<BeanAstType> = {
         Body: [
-            validator.checkContextsContainOnlyOneType
         ],
         IdentifierDecl: [
             // TODO: ...
@@ -60,34 +59,5 @@ export class BeanValidator {
 
     checkUnusedVariable(ident: IdentifierDecl, accept: ValidationAcceptor): void {
         // TODO: ...
-    }
-
-    checkContextsContainOnlyOneType(body: Body, accept: ValidationAcceptor): void {
-        body.discreteVarDecls.forEach(varDecl => {
-            if (!this.isDiscreteType(varDecl.ty)) {
-                accept("error", `Found linear variable declaration '${varDecl.ident.name}' in discrete context.`, {
-                    node: varDecl
-                })
-            }
-        });
-        body.linearVarDecls.forEach(varDecl => {
-            if (!this.isLinearType(varDecl.ty)) {
-                accept("error", `Found discrete variable declaration '${varDecl.ident.name}' in linear context.`, {
-                    node: varDecl
-                })
-            }
-        })
-    }
-
-    private isLinearType(ty: Type): boolean {
-        const units = AstUtils.streamAst(ty).filter((elem: any) => isUnitType(elem));
-        const numericTypes = AstUtils.streamAst(ty).filter(elem => isNumericType(elem));
-        return units.isEmpty() && numericTypes.every(elem => (elem as NumericType).kw === "num");
-    }
-
-    private isDiscreteType(ty: Type): boolean {
-        const units = AstUtils.streamAst(ty).filter(elem => isUnitType(elem));
-        const numericTypes = AstUtils.streamAst(ty).filter(elem => isNumericType(elem));
-        return units.isEmpty() && numericTypes.every(elem => (elem as NumericType).kw === "dnum");
     }
 }
