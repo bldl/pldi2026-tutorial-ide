@@ -47,11 +47,9 @@ export class BeanValidator {
             return ident.$container.$containerProperty === "linearVarDecls";
         }
         else if(isLetBinding(ident.$container)) {
-            // @ts-expect-error
             return ident.$container.kw === "let";
         }
         else if(isTensorDestructor(ident.$container)) {
-            // @ts-expect-error
             return ident.$container.kw === "let";
         }
         else if(isCase(ident.$container)) {
