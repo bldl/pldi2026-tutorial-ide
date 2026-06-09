@@ -9,8 +9,6 @@ export function registerValidationChecks(services: BeanServices) {
     const registry = services.validation.ValidationRegistry;
     const validator = services.validation.BeanValidator;
     const checks: ValidationChecks<BeanAstType> = {
-        Body: [
-        ],
         IdentifierDecl: [
             // TODO: ...
         ],
