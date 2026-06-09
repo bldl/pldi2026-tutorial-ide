@@ -26,7 +26,7 @@ NumericType:
 ;
 
 ProductType:
-    ('(' tys+=Type (',' tys+=Type)* ')');
+    '(' tys+=Type (',' tys+=Type)* ')';
      
 UnitType:
     val="()"
@@ -71,7 +71,7 @@ TensorPair:
 ;
 
 Injection:
-    (kw="inl"|"inr") ty=Type val=Value
+    kw=("inl"|"inr") ty=Type val=Value
 ;
 
 BangConstructor:
@@ -92,10 +92,10 @@ Case:
     "case" val=Value "of"
     "{"
         "inl" "(" leftName=IdentifierDecl ")" "=>"
-        (leftBranch+=Expression)*
+        leftBranch+=Expression*
         "|"
         "inr" "(" rightName=IdentifierDecl ")" "=>"
-        (rightBranch+=Expression)*
+        rightBranch+=Expression*
     "}"
 ;
 
@@ -109,7 +109,7 @@ LetBinding:
 ;
 
 Operation:
-    (op="add"|"mul"|"sub"|"div"|"dmul")
+    op=("add"|"mul"|"sub"|"div"|"dmul")
     refLeft=VariableReference
     refRight=VariableReference
 ;
