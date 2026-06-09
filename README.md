@@ -8,9 +8,9 @@ This repository is organised in three main folders:
 - `textual` contains the source code for the Langium IDE;
 - `projectional` contains the source code for the MPS IDE;
 - `resources` contains documentation about the structure of the language:
-    - `bean-grammar`: EBNF grammar definition, used for the textual IDE;
-    - `bean-concepts`: class diagram of language constructs, used for the projectional IDE;
-    - `bean-rules`: formal definition of the language syntax and typing rules.
+    - `grammar`: EBNF grammar definition, used for the textual IDE;
+    - `concepts`: class diagram of language constructs, used for the projectional IDE;
+    - `rules`: formal definition of the language syntax and typing rules.
 
 ### Branches
 
