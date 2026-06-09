@@ -1,0 +1,66 @@
+@startuml bean-class-diagram
+skinparam linetype polyline
+skinparam linetype ortho
+skinparam nodesep 150
+skinparam ranksep 100
+
+class Program
+class LinearContext
+class DiscreteContext
+abstract Context
+abstract Expression
+abstract Value
+class VarDecl
+class IdentifierDecl {
+  name : string
+}
+abstract Operation
+
+Context ^-- LinearContext
+Context ^-- DiscreteContext
+
+Type ^-down- Discrete
+Type ^-down- Linear
+Type ^-down- Product
+
+Expression ^-- LetBinding
+Expression ^-- TensorDestructor
+Expression ^-- Value
+Expression ^-- Operation
+Value ^-- TensorPair
+Value ^-- VariableReference
+Value ^-- BangConstructor
+
+Operation ^-- Add
+Operation ^-- Sub
+Operation ^-- Mul
+Operation ^-- DMul
+Operation ^-- Div
+
+Program *-- "1" DiscreteContext : discreteContext
+Program *-- "1" LinearContext : linearContext
+Program *-- "0..n" Expression : expressions
+
+Context *-- "0..n" VarDecl : decls
+VarDecl *-- "1" IdentifierDecl : ident
+VarDecl *-- "1" Type : type
+
+Product *-- "2..n" Type : tys
+
+LetBinding *-- "1" IdentifierDecl : ident
+LetBinding *-- "1" Expression : expr
+
+TensorDestructor *-- "1" IdentifierDecl : id1
+TensorDestructor *-- "1" IdentifierDecl : id2
+TensorDestructor *-- "1" Value : val
+
+VariableReference ..> "1" IdentifierDecl : ref
+
+TensorPair *-- "1" Value : left
+TensorPair *-- "1" Value : right
+
+BangConstructor *-- "1" VariableReference : ref
+
+Operation *-- "1" VariableReference : refLeft
+Operation *-- "1" VariableReference : refRight
+@enduml

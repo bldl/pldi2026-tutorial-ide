@@ -1,0 +1,34 @@
+@startebnf bean-grammar
+Body               = "{", { VarDecl }, "}", "{", { VarDecl }, "}", { Expression } ;
+
+VarDecl            = "(", ID, ":", Type, ")" ;
+
+Type               = "num" | "dnum" | "()" | "(", Type, { ",", Type }, ")";
+
+Expression         = LetBinding | TensorDestructor | Value | Case | Operation ;
+
+LetBinding         = ( "let" | "dlet" ), ID, [ ":", Type ], "=", Expression, ";" ;
+
+TensorDestructor   = ( "let" | "dlet" ), "(", ID, ",", ID, ")", "=", Value, ";" ;
+
+Value              = UnitValue | VariableReference | TensorPair | Injection | BangConstructor ;
+
+UnitValue          = "(", ")" ;
+
+VariableReference  = ID ;
+
+TensorPair         = "(", Value, ",", Value, ")" ;
+
+Injection          = ( "inl" | "inr" ), Type, Value ;
+
+BangConstructor    = "!", VariableReference ;
+
+Case               = "case", Value, "of", "{", 
+                        "inl", "(", ID, ")", "=>", { Expression }, 
+                        "|", 
+                        "inr", "(", ID, ")", "=>", { Expression }, 
+                     "}" ;
+
+Operation          = ( "add" | "mul" | "sub" | "div" | "dmul" ), VariableReference, VariableReference ;
+
+@endebnf
