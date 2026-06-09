@@ -33,17 +33,21 @@ UnitType:
 ;
 
 Expression:
+    TensorDestructor
+    |
     Value
-    | LetBinding
-    | TensorDestructor
-    | Case
-    | Operation
+    |
+    LetBinding
+    |
+    Case
+    |
+    Operation
 ;
 
 Value:
-    VariableReference
-    |
     UnitValue
+    |
+    VariableReference
     |
     TensorPair
     |
@@ -53,7 +57,11 @@ Value:
 ;
 
 UnitValue:
-    val="()"
+    val="(" ")"
+;
+
+VariableReference:
+    ref=[IdentifierDecl:ID]
 ;
 
 TensorPair:
@@ -66,29 +74,45 @@ Injection:
     (kw="inl"|"inr") ty=Type val=Value
 ;
 
-// TODO: variable references
-VariableReference: 
-    placeholder="TODO";
-
-// TODO: bindings
-LetBinding:
-    placeholder="TODO";
-
-// TODO: tensor destructors
-TensorDestructor:
-    placeholder="TODO";
-
-// TODO: operations
-Operation:
-    placeholder="TODO";
-
-// TODO: case expressions
-Case:
-    placeholder="TODO";
-
-// TODO: "bang" constructors
 BangConstructor:
-    placeholder="TODO";
+    "!" ref=VariableReference
+;
+
+TensorDestructor:
+    kw=("let"|"dlet")
+    "("
+    id1=IdentifierDecl "," id2=IdentifierDecl
+    ")"
+    "="
+    val=Value
+    ";"
+;
+
+Case:
+    "case" val=Value "of"
+    "{"
+        "inl" "(" leftName=IdentifierDecl ")" "=>"
+        (leftBranch+=Expression)*
+        "|"
+        "inr" "(" rightName=IdentifierDecl ")" "=>"
+        (rightBranch+=Expression)*
+    "}"
+;
+
+LetBinding:
+    kw=("let"|"dlet")
+    name=IdentifierDecl
+    (":" ty=Type)?
+    "="
+    expr=Expression
+    ";"
+;
+
+Operation:
+    (op="add"|"mul"|"sub"|"div"|"dmul")
+    refLeft=VariableReference
+    refRight=VariableReference
+;
 
 hidden terminal WS: /\s+/;
 terminal ID: /[_a-zA-Z][a-zA-Z0-9_']*/;
