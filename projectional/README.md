@@ -1,6 +1,6 @@
 # Projectional Editor for the BEAN Language
 
-This repository. contains a projectional editor for a subset of the [BEAN](https://github.com/Athena-Types/Bean) research programming language. 
+This folder contains a projectional editor for a subset of the [BEAN](https://github.com/Athena-Types/Bean) research programming language. 
 The project is meant to demonstrate applications of IDEs and language tooling to PLs in the research field. 
 Developed using [JetBrains Meta Programming System](https://www.jetbrains.com/mps/).
 
