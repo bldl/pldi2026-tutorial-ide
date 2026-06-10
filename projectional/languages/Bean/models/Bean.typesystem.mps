@@ -1118,5 +1118,28 @@
     </node>
     <node concept="3Tm1VV" id="1u9nW95Hdyv" role="1B3o_S" />
   </node>
+  <node concept="1YbPZF" id="1u9nW96j1up">
+    <property role="TrG5h" value="typeof_Type" />
+    <node concept="3clFbS" id="1u9nW96j1uq" role="18ibNy">
+      <node concept="1Z5TYs" id="1u9nW96j26P" role="3cqZAp">
+        <node concept="mw_s8" id="1u9nW96j26Z" role="1ZfhKB">
+          <node concept="1YBJjd" id="1u9nW96j26X" role="mwGJk">
+            <ref role="1YBMHb" node="1u9nW96j1us" resolve="type" />
+          </node>
+        </node>
+        <node concept="mw_s8" id="1u9nW96j26S" role="1ZfhK$">
+          <node concept="1Z2H0r" id="1u9nW96j1vG" role="mwGJk">
+            <node concept="1YBJjd" id="1u9nW96j1xz" role="1Z2MuG">
+              <ref role="1YBMHb" node="1u9nW96j1us" resolve="type" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="1YaCAy" id="1u9nW96j1us" role="1YuTPh">
+      <property role="TrG5h" value="type" />
+      <ref role="1YaFvo" to="ke35:16EXoXrbZcF" resolve="Type" />
+    </node>
+  </node>
 </model>
 
