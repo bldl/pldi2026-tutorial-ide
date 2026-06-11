@@ -57,7 +57,7 @@ e, f & ::= & x \mid z \mid () \mid \, !e \mid (e, f) \mid \mathbf{inl}\, e \mid 
 
 \section{Typing Rules}
 
-\subsection*{Context Variables}
+\subsection*{Context Variable}
 
 \begin{minipage}{0.45\textwidth}
 % Rule: Var
@@ -79,27 +79,7 @@ e, f & ::= & x \mid z \mid () \mid \, !e \mid (e, f) \mid \mathbf{inl}\, e \mid 
 
 \vspace{1em}
 
-\subsection*{Tensor Destructors}
-
-% Rule: \otimes E_\sigma
-\begin{prooftree}
-    \AxiomC{$\Phi \mid \Gamma \vdash e : \tau_1 \otimes \tau_2$}
-    \AxiomC{$\Phi \mid \Delta, x :_r \tau_1, y :_r \tau_2 \vdash f : \sigma$}
-    \RightLabelStyle{$\otimes \text{E}_\sigma$}
-    \BinaryInfC{$\Phi \mid r + \Gamma, \Delta \vdash \mathbf{let}\, (x,y) = e\ \mathbf{in}\, f : \sigma$}
-\end{prooftree}
-
-\vspace{1em}
-
-% Rule: \otimes E_\alpha
-\begin{prooftree}
-    \AxiomC{$\Phi \mid \Gamma \vdash e : \alpha_1 \otimes \alpha_2$}
-    \AxiomC{$\Phi, z_1 : \alpha_1, z_2 : \alpha_2 \mid \Delta \vdash f : \sigma$}
-    \RightLabelStyle{$\otimes \text{E}_\alpha$}
-    \BinaryInfC{$\Phi \mid \Gamma, \Delta \vdash \mathbf{dlet}\, (z_1, z_2) = e\ \mathbf{in}\, f : \sigma$}
-\end{prooftree}
-
-\subsection*{Let Bindings}
+\subsection*{Let Binding}
 
 \begin{minipage}{0.45\textwidth}
 % Rule: Let
@@ -123,7 +103,27 @@ e, f & ::= & x \mid z \mid () \mid \, !e \mid (e, f) \mid \mathbf{inl}\, e \mid 
 
 \vspace{1em}
 
-\subsection*{Bang Destructor}
+\subsection*{Tensor Destructor}
+
+% Rule: \otimes E_\sigma
+\begin{prooftree}
+    \AxiomC{$\Phi \mid \Gamma \vdash e : \tau_1 \otimes \tau_2$}
+    \AxiomC{$\Phi \mid \Delta, x :_r \tau_1, y :_r \tau_2 \vdash f : \sigma$}
+    \RightLabelStyle{$\otimes \text{E}_\sigma$}
+    \BinaryInfC{$\Phi \mid r + \Gamma, \Delta \vdash \mathbf{let}\, (x,y) = e\ \mathbf{in}\, f : \sigma$}
+\end{prooftree}
+
+\vspace{1em}
+
+% Rule: \otimes E_\alpha
+\begin{prooftree}
+    \AxiomC{$\Phi \mid \Gamma \vdash e : \alpha_1 \otimes \alpha_2$}
+    \AxiomC{$\Phi, z_1 : \alpha_1, z_2 : \alpha_2 \mid \Delta \vdash f : \sigma$}
+    \RightLabelStyle{$\otimes \text{E}_\alpha$}
+    \BinaryInfC{$\Phi \mid \Gamma, \Delta \vdash \mathbf{dlet}\, (z_1, z_2) = e\ \mathbf{in}\, f : \sigma$}
+\end{prooftree}
+
+\subsection*{Bang Constructor}
 
 % Rule: Disc
 \begin{prooftree}
@@ -132,7 +132,7 @@ e, f & ::= & x \mid z \mid () \mid \, !e \mid (e, f) \mid \mathbf{inl}\, e \mid 
     \UnaryInfC{$\Phi \mid \Gamma \vdash\, !e : m(\sigma)$}
 \end{prooftree}
 
-\subsection*{Operations}
+\subsection*{Operation}
 
 % Rule: Add, Sub
 \begin{prooftree}
