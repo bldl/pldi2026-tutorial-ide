@@ -30,7 +30,7 @@ export class BeanValidator {
         this.references = services.references.References;
     }
 
-    checkLinearVariableAccess(ref: VariableReference, accept: ValidationAcceptor): void {
+    checkLinearVariableAccess(varRef: VariableReference, accept: ValidationAcceptor): void {
         // TODO: ...
     }
 
