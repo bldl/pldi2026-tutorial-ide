@@ -668,9 +668,6 @@
                   </node>
                   <node concept="1OKiuA" id="1u9nW95Tllk" role="2OqNvi">
                     <node concept="1Q80Hx" id="1u9nW95Tlll" role="lBI5i" />
-                    <node concept="2B6iha" id="1u9nW95Tllm" role="lGT1i">
-                      <property role="1lyBwo" value="59pBc0SIIVt/mostRelevant" />
-                    </node>
                     <node concept="3cmrfG" id="1u9nW95Tlln" role="3dN3m$">
                       <property role="3cmrfH" value="-1" />
                     </node>
