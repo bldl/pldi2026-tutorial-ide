@@ -3,7 +3,6 @@
   <component name="MPSProject">
     <projectModules>
       <modulePath path="$PROJECT_DIR$/languages/Bean/Bean.mpl" folder="" />
-      <modulePath path="$PROJECT_DIR$/solutions/Example/Example.msd" folder="" />
     </projectModules>
   </component>
 </project>
