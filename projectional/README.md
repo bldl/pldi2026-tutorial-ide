@@ -1,33 +1,40 @@
-# Projectional Editor for the BEAN Language
+# Projectional Editor: JetBrains MPS Implementation
 
-This folder contains a projectional editor for a subset of the [BEAN](https://github.com/Athena-Types/Bean) research programming language. 
-The project is meant to demonstrate applications of IDEs and language tooling to PLs in the research field. 
-Developed using [JetBrains Meta Programming System](https://www.jetbrains.com/mps/).
+This directory contains a projectional editor for a subset of the [BEAN](https://github.com/Athena-Types/Bean) research programming language, built with [JetBrains Meta Programming System](https://www.jetbrains.com/mps/). This approach avoids traditional parsing by manipulating the abstract syntax tree directly.
 
-Features:
-- Type System for the BEAN language
-  - Inference Rules for linear and discrete types, according to the paper (https://doi.org/10.48550/arXiv.2501.14550, Fig. 3)
-- Side Transformations
-  - (Note: `_`indicates the position of the cursor)
-  - `_x -> !x` wraps a variable reference into a discrete conversion expression when `!`is entered
-  - `let _x = e; -> let (x, ...) = e;` replaces a `let/dlet` binding with a tensor destructor expression when `(` is entered 
-- Syntax highlighting
-- Variable scoping
-- Semantic validators
-    - Type declarations inside linear/discrete contexts
-    - Unused variables
-- Quick Fixes
-    - Remove unused variable
-    - Toggle between `let` and `dlet` bindings
+## Features
+
+- Syntax highlighting and autocompletion
+- Variable scoping and name resolution
+- Side Transformations - The editor supports side transformations triggered by what the user types:
+  - `_x` → `!x`: Wraps variable references into discrete type conversion expressions when `!` is entered
+  - `let _x = e;` → `let (x, ...) = e;`: Transforms simple bindings into tensor destructuring when `(` is entered
+  - (Note: `_` indicates cursor position)
+- Semantic Validations, Diagnostics, and Quick Fixes
+  - Type System: inference rules for linear and discrete types, following the formalization in [Bean: A Language for Backward Error Analysis](https://doi.org/10.48550/arXiv.2501.14550) (§3)
+  - Detect unused variables and type declaration violations
+  - Quick fixes to remove unused variables or toggle between `let` and `dlet`
 
 ## System Requirements
 
 - JetBrains MPS 2025.3
+- [Download MPS](https://www.jetbrains.com/mps/download/)
 
-## Running the application
+## Installation and Setup
 
-Clone the repository and open the root folder inside MPS.
+Clone the repository and open the `projectional` folder in JetBrains MPS. The project includes a single language module:
 
-### Code Examples
+- `Bean`: language definitions (structure, type system, editor, etc.)
 
-Once the extension is running, open the `Example` solution to inspect some BEAN programs rewritten in MPS.
+When you open the project, MPS may show build errors. To resolve them, right-click on the `Bean` module and select **Rebuild Language 'Bean'**.
+
+
+## Development Workflow
+
+MPS combines language design with runtime execution. To modify or extend the language:
+
+1. Edit language definitions in the aspect editors (Structure, Type System, Editor, etc.)
+2. Rebuild the project
+3. Test with example programs in the solutions
+
+See the [JetBrains MPS documentation](https://www.jetbrains.com/help/mps/) for more details.
