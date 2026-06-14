@@ -356,8 +356,6 @@
       <node concept="l2Vlx" id="16EXoXrDw04" role="2iSdaV" />
     </node>
   </node>
-<<<<<<< HEAD
-=======
   <node concept="24kQdi" id="16EXoXriaup">
     <ref role="1XX52x" to="ke35:16EXoXrEZ26" resolve="TensorDestructor" />
     <node concept="3EZMnI" id="16EXoXriaus" role="2wV5jI">
@@ -652,7 +650,6 @@
       </node>
     </node>
   </node>
->>>>>>> 1261918 (Remove missing cell ref)
   <node concept="24kQdi" id="16EXoXrSfYS">
     <ref role="1XX52x" to="ke35:16EXoXrSfYM" resolve="TensorPair" />
     <node concept="3EZMnI" id="16EXoXrSfYU" role="2wV5jI">
