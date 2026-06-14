@@ -33,13 +33,13 @@ export class BeanValidator {
         this.references = services.references.References;
     }
 
-    checkLinearVariableAccess(ref: VariableReference, accept: ValidationAcceptor): void {
-        const ident = ref.ref.ref;
+    checkLinearVariableAccess(varRef: VariableReference, accept: ValidationAcceptor): void {
+        const ident = varRef.ref.ref;
         if (ident && this.isLinearVariable(ident)) {
            const refs = this.references.findReferences(ident!, {includeDeclaration: false}).toArray();
            if(refs.length > 1) {
                 accept("error", `Linear variable '${ident.name}' accessed multiple times. It can only be accessed once.`, {
-                    node: ref
+                    node: varRef
                 })
            }
         }
