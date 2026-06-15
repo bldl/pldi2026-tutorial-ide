@@ -1282,5 +1282,28 @@
       <ref role="1YaFvo" to="ke35:16EXoXrbZcF" resolve="Type" />
     </node>
   </node>
+  <node concept="1YbPZF" id="GWhHkkBUcf">
+    <property role="TrG5h" value="typeof_TypeProduct" />
+    <node concept="3clFbS" id="GWhHkkBUcg" role="18ibNy">
+      <node concept="1Z5TYs" id="GWhHkkBV1g" role="3cqZAp">
+        <node concept="mw_s8" id="GWhHkkBV1q" role="1ZfhKB">
+          <node concept="1YBJjd" id="GWhHkkBV1o" role="mwGJk">
+            <ref role="1YBMHb" node="GWhHkkBUci" resolve="typeProduct" />
+          </node>
+        </node>
+        <node concept="mw_s8" id="GWhHkkBV1j" role="1ZfhK$">
+          <node concept="1Z2H0r" id="GWhHkkBUAJ" role="mwGJk">
+            <node concept="1YBJjd" id="GWhHkkBUC$" role="1Z2MuG">
+              <ref role="1YBMHb" node="GWhHkkBUci" resolve="typeProduct" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="1YaCAy" id="GWhHkkBUci" role="1YuTPh">
+      <property role="TrG5h" value="typeProduct" />
+      <ref role="1YaFvo" to="ke35:16EXoXrdzCX" resolve="TypeProduct" />
+    </node>
+  </node>
 </model>
 
